@@ -9,9 +9,16 @@ def clean_name(name):
 	"Clean up an mp3 name for comparison"
 	if name is None:
 		return None
-	name = re.sub(r"\(.*\)","",name)
-	name = re.sub(r"\[.*\]","",name)
+	name2 = re.sub(r"\(.*\)","",name)
+	# MAke sure we don't we remove the entire name
+	if name2:
+		name = name2
+	name2 = re.sub(r"\[.*\]","",name)
+	if name2:
+		name = name2
 	name = re.sub(r"\{.*\}","",name)
+	# This is so "foo & bar" matches "foo and bar"
+	name = re.sub(r" and ","",name, re.IGNORECASE)
 	name = re.sub(r"[^A-Za-z0-9]","",name)
 	return name.lower()
 
